@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Live Currency Exchange</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://kit.fontawesome.com/d2f9e4dfbd.js" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Live Currency Exchange</h1>
+      </div>
+      <div class="date">2019/02/14</div>
+      <ul class="currencies">
+        <li class="currency base-currency" id="USD">
+          <img src="http://www.geonames.org/flags/l/us.gif" class="flag" />
+          <div class="info">
+            <p class="input">
+              <span class="currency-symbol">&#36</span><input placeholder="0.000" />
+            </p>
+            <p class="currency-name">USD - US Dollar</p>
+            <p class="base-currency-rate">1 EUR = 1.1200 USD</p>
+          </div>
+          <span class="close">&times</span>
+        </li>
+        <li class="currency" id="JPY">
+          <img src="http://www.geonames.org/flags/l/jp.gif" class="flag" />
+          <div class="info">
+            <p class="input">
+              <span class="currency-symbol">&#36</span><input placeholder="0.000" />
+            </p>
+            <p class="currency-name">USD - US Dollar</p>
+            <p class="base-currency-rate">1 EUR = 1.1200 USD</p>
+          </div>
+          <span class="close">&times</span>
+        </li>
+        <li class="currency" id="JPY">
+          <img src="http://www.geonames.org/flags/l/jp.gif" class="flag" />
+          <div class="info">
+            <p class="input">
+              <span class="currency-symbol">&#36</span><input placeholder="0.000" />
+            </p>
+            <p class="currency-name">USD - US Dollar</p>
+            <p class="base-currency-rate">1 EUR = 1.1200 USD</p>
+          </div>
+          <span class="close">&times</span>
+        </li>
+        <li class="currency" id="JPY">
+          <img src="http://www.geonames.org/flags/l/jp.gif" class="flag" />
+          <div class="info">
+            <p class="input">
+              <span class="currency-symbol">&#36</span><input placeholder="0.000" />
+            </p>
+            <p class="currency-name">USD - US Dollar</p>
+            <p class="base-currency-rate">1 EUR = 1.1200 USD</p>
+          </div>
+          <span class="close">&times</span>
+        </li>
+        <li class="currency" id="JPY">
+          <img src="http://www.geonames.org/flags/l/jp.gif" class="flag" />
+          <div class="info">
+            <p class="input">
+              <span class="currency-symbol">&#36</span><input placeholder="0.000" />
+            </p>
+            <p class="currency-name">USD - US Dollar</p>
+            <p class="base-currency-rate">1 EUR = 1.1200 USD</p>
+          </div>
+          <span class="close">&times</span>
+        </li>
+      </ul>
+      <button class="add-currency-btn open"><i class="fas fa-long-arrow-alt-left"></i> Add Currency</button>
+      <ul class="add-currency-list">
+        <li data-currency="USD" class="disabled"> 
+          <img src="http://www.geonames.org/flags/l/jp.gif" class="flag" />
+          <span>USD - US Dollar</span>
+        </li>
+        <li data-currency="USD"> 
+          <img src="http://www.geonames.org/flags/l/jp.gif" class="flag" />
+          <span>USD - US Dollar</span>
+        </li>
+      </ul>
+      
+    </div>
+
+    <script src="main.js"></script>
+  </body>
+</html>
