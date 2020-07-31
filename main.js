@@ -3,18 +3,18 @@
 const addCurrentBtn = document.querySelector(".add-currency-btn");
 const addCurrencyList = document.querySelector(".add-currency-list");
 const currenciesList = document.querySelector(".currencies");
+const dataURL = "https://api.exchangeratesapi.io/latest";
 
 const initiallyDisplayedCurrencies = ["USD", "EUR", "GBP", "JPY", "RUB"];
 let baseCurrency;
 let baseCurrencyAmount;
 
-const currencies = [
+let currencies = [
   {
     name: "US Dollar",
     abbreviation: "USD",
     symbol: "\u0024",
     flagURL: "http://www.geonames.org/flags/l/us.gif",
-    rate: 0.93754,
   },
   {
     name: "Euro",
@@ -22,7 +22,6 @@ const currencies = [
     symbol: "\u20AC",
     flagURL:
       "https://upload.wikimedia.org/wikipedia/commons/b/b7/Flag_of_Europe.svg",
-    rate: 0.33854,
   },
   {
     name: "Japanese Yen",
@@ -258,7 +257,7 @@ function currenciesListClick() {
 // setting base currency
 function setNewBaseCurrency(newBaseCurrencyLI) {
   newBaseCurrencyLI.classList.add("base-currency");
-  BaseCurrency = newBaseCurrencyLI.id;
+  baseCurrency = newBaseCurrencyLI.id;
   const baseCurrencyRate = currencies.find(
     (currency) => currency.abbreviation === baseCurrency
   ).rate;
@@ -276,10 +275,60 @@ function setNewBaseCurrency(newBaseCurrencyLI) {
   });
 }
 
+currenciesList.addEventListener("input", currenciesListInputChange);
+
+function currenciesListInputChange(event) {
+  const isNewBaseCurrency = event.target.closest("li").id !== baseCurrency;
+  if (isNewBaseCurrency) {
+    currenciesList
+      .querySelector(`#${baseCurrency}`)
+      .classList.remove("base-currency");
+    setNewBaseCurrency(event.target.closest("li"));
+  }
+  const newBaseCurrencyAmount = isNaN(event.target.value)
+    ? 0
+    : Number(event.target.value);
+  if (baseCurrencyAmount !== newBaseCurrencyAmount || isNewBaseCurrency) {
+    baseCurrencyAmount = newBaseCurrencyAmount;
+    const baseCurrencyRate = currencies.find(
+      (currency) => currency.abbreviation === baseCurrency
+    ).rate;
+    currenciesList.querySelectorAll(".currency").forEach((currencyLI) => {
+      if (currencyLI.id !== baseCurrency) {
+        const currencyRate = currencies.find(
+          (currency) => currency.abbreviation === currencyLI.id
+        ).rate;
+        const exchangeRate =
+          currencyLI.id === baseCurrency
+            ? 1
+            : (currencyRate / baseCurrencyRate).toFixed(4);
+        currencyLI.querySelector(".input input").value =
+          exchangeRate * baseCurrencyAmount !== 0
+            ? (exchangeRate * baseCurrencyAmount).toFixed(4)
+            : "";
+      }
+    });
+  }
+}
+
+currenciesList.addEventListener("focusout", currenciesListFocusOut);
+
+function currenciesListFocusOut(event) {
+  const inputValue = event.target.value;
+  if (isNaN(inputValue) || Number(inputValue) === 0) event.target.value = "";
+  else event.target.value = Number(inputValue).toFixed(4);
+}
+
+currenciesList.addEventListener("keydown", currenciesListKeyDown);
+
+function currenciesListKeyDown(event) {
+  if (event.key === "Enter") event.target.blur();
+}
+
 //auxiliary functions
 
 // populating currency from array
-function populateAddCurrenctList() {
+function populateAddCurrencyList() {
   for (let i = 0; i < currencies.length; i++) {
     addCurrencyList.insertAdjacentHTML(
       "beforeend",
@@ -346,5 +395,18 @@ function newCurrenciesListItem(currency) {
   );
 }
 
-populateAddCurrenctList();
-populateCurrenciesList();
+fetch(dataURL)
+  .then((res) => res.json())
+  .then((data) => {
+    document.querySelector(".date").textContent = data.date;
+    data.rates["EUR"] = 1;
+    currencies = currencies.filter(
+      (currency) => data.rates[currency.abbreviation]
+    );
+    currencies.forEach(
+      (currency) => (currency.rate = data.rates[currency.abbreviation])
+    );
+    populateAddCurrencyList();
+    populateCurrenciesList();
+  })
+  .catch((err) => console.log(err));
