@@ -409,4 +409,4 @@ fetch(dataURL)
     populateAddCurrencyList();
     populateCurrenciesList();
   })
-  .catch((err) => console.log(err));
+  .catch((err) => window.alert("Currency exchange data can not be fetched"));
