@@ -222,6 +222,7 @@ function addCurrentBtnClick(event) {
 
 addCurrencyList.addEventListener("click", addCurrencyListClick);
 
+// adding currecy from currency list
 function addCurrencyListClick(event) {
   const clickedListItem = event.target.closest("li");
   if (!clickedListItem.classList.contains("disabled")) {
@@ -230,6 +231,49 @@ function addCurrencyListClick(event) {
     );
     if (newCurrency) newCurrenciesListItem(newCurrency);
   }
+}
+
+currenciesList.addEventListener("click", currenciesListClick);
+
+// close button to remove the parentNode and remove disabled class from currencyList
+function currenciesListClick() {
+  if (event.target.classList.contains("close")) {
+    const parentNode = event.target.parentNode;
+    parentNode.remove();
+    addCurrencyList
+      .querySelector(`[data-currency=${parentNode.id}]`)
+      .classList.remove("disabled");
+    if (parentNode.classList.contains("base-currency")) {
+      const newBaseCurrencyLI = currenciesList.querySelector(".currency");
+      if (newBaseCurrencyLI) {
+        setNewBaseCurrency(newBaseCurrencyLI);
+        baseCurrencyAmount = Number(
+          newBaseCurrencyLI.querySelector(".input input").value
+        );
+      }
+    }
+  }
+}
+
+// setting base currency
+function setNewBaseCurrency(newBaseCurrencyLI) {
+  newBaseCurrencyLI.classList.add("base-currency");
+  BaseCurrency = newBaseCurrencyLI.id;
+  const baseCurrencyRate = currencies.find(
+    (currency) => currency.abbreviation === baseCurrency
+  ).rate;
+  currenciesList.querySelectorAll(".currency").forEach((currencyLI) => {
+    const currencyRate = currencies.find(
+      (currency) => currency.abbreviation === currencyLI.id
+    ).rate;
+    const exchangeRate =
+      currencyLI.id === baseCurrency
+        ? 1
+        : (currencyRate / baseCurrencyRate).toFixed(4);
+    currencyLI.querySelector(
+      ".base-currency-rate"
+    ).textContent = `1 ${baseCurrency} = ${exchangeRate} ${currencyLI.id}`;
+  });
 }
 
 //auxiliary functions
