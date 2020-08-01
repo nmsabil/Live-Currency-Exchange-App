@@ -13,6 +13,7 @@ body {
   font-family: "Montserrat", "sans-serif";
   background-color: #505562;
   color: #fff;
+  overflow-y: hidden;
 }
 
 .container {
@@ -29,8 +30,12 @@ body {
   padding: 1.75rem;
 }
 
+.header p {
+  font-size: 1rem;
+}
+
 .header h1 {
-  font-size: 2.25rem;
+  font-size: 2rem;
 }
 
 .date {
@@ -209,8 +214,15 @@ ul.add-currency-list li span {
   ul.currencies {
     height: calc(100vh - 83px - 26px - 51px);
   }
+  .header {
+    padding: 1.5rem;
+  }
   .header h1 {
-    font-size: 1.58rem;
+    font-size: 1.2rem;
+  }
+
+  .header p {
+    font-size: 0.8rem;
   }
   .flag {
     width: 3rem;
